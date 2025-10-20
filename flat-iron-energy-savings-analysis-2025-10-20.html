@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Savings Analysis | Synergy Grill Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --synergy-blue: #0066CC;
+  --synergy-dark: #003d7a;
+  --synergy-light: #e6f2ff;
+  --text-dark: #1a1a1a;
+  --text-gray: #6b7280;
+  --success-green: #10b981;
+  --warning-orange: #f59e0b;
+  --white: #ffffff;
+  --light-gray: #f8fafc;
+  --accent-gold: #fbbf24;
+  --gradient-primary: linear-gradient(135deg, #0066CC 0%, #003d7a 100%);
+  --gradient-gold: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* SCROLL SNAP CONFIGURATION */
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--white);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-y: scroll;
+  height: 100%;
+}
+/* UNIVERSAL SECTION SNAP BEHAVIOR */
+section {
+  position: relative;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  isolation: isolate;
+}
+
+/* Loading Animation */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--gradient-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeOut 0.8s ease 2.5s forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; pointer-events: none; }
+}
+
+.loader-content {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.loader-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: slideInUp 0.6s ease 0.5s forwards;
+}
+
+.loader-subtitle {
+  font-size: 1rem;
+  opacity: 0;
+  animation: slideInUp 0.6s ease 0.7s forwards;
+}
+
+.loader-grid {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.loader-bar {
+  width: 6px;
+  height: 50px;
+  background: linear-gradient(to top, rgba(255,255,255,0.3), rgba(255,255,255,0.8));
+  border-radius: 3px;
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+.loader-bar:nth-child(1) { animation-delay: 0s; }
+.loader-bar:nth-child(2) { animation-delay: 0.1s; }
+.loader-bar:nth-child(3) { animation-delay: 0.2s; }
+.loader-bar:nth-child(4) { animation-delay: 0.3s; }
+.loader-bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loader-progress {
+  width: 200px;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  animation: slideInUp 0.6s ease 0.9s forwards;
+}
+
+.loader-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-gold), white);
+  border-radius: 2px;
+  animation: progress 2s ease-in-out;
+}
+
+@keyframes progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+/* Hero Section */
+.hero-section {
+  background: var(--gradient-primary);
+  color: var(--white);
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  animation: float 25s ease-in-out infinite;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(251,191,36,0.1) 0%, transparent 70%);
+  animation: float 30s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  33% { transform: translateY(-30px) rotate(120deg) scale(1.1); }
+  66% { transform: translateY(20px) rotate(240deg) scale(0.9); }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-logo {
+  display: block;
+  margin: 0 auto 50px auto;
+  max-width: 400px;
+  height: auto;
+  opacity: 0;
+  animation: slideInUp 0.8s ease 0.1s both;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+  transition: all 0.3s ease;
+}
+
+.hero-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  animation: slideInUp 0.8s ease 0.4s both;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 50px;
+  font-weight: 400;
+  line-height: 1.4;
+  animation: slideInUp 0.8s ease 0.6s both;
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.location-highlight {
+  background: rgba(251,191,36,0.15);
+  border: 2px solid var(--accent-gold);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 60px;
+  animation: slideInUp 0.8s ease 0.8s both;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.location-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.location-highlight:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(251,191,36,0.2);
+}
+
+.location-highlight strong {
+  color: var(--accent-gold);
+  font-size: 1.3rem;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: -40px;
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.metric-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 18px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0,102,204,0.1);
+  animation: slideInUp 0.8s ease both;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.metric-card:nth-child(1) { animation-delay: 0.1s; }
+.metric-card:nth-child(2) { animation-delay: 0.2s; }
+.metric-card:nth-child(3) { animation-delay: 0.3s; }
+.metric-card:nth-child(4) { animation-delay: 0.4s; }
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover::before {
+  transform: scaleX(1);
+}
+
+.metric-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0,102,204,0.2);
+}
+
+.metric-card.highlight {
+  background: var(--gradient-gold);
+  color: var(--text-dark);
+  border: 2px solid var(--accent-gold);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 25px 50px rgba(251,191,36,0.2); }
+  50% { box-shadow: 0 25px 50px rgba(251,191,36,0.4); }
+}
+
+.metric-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  display: block;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.metric-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--synergy-blue);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.metric-card.highlight .metric-value {
+  color: var(--text-dark);
+}
+
+.metric-label {
+  font-size: 0.7rem;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+/* Assumptions Section - FIXED: Changed to auto height */
+.assumptions-section {
+  background: var(--white);
+  padding: 60px 0;
+  margin: 40px 0;
+  z-index: 2;
+  min-height: auto;
+}
+
+.assumptions-banner {
+  background: var(--white);
+  border-left: 5px solid var(--accent-gold);
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: 0 10px 40px rgba(0,102,204,0.08);
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
+.assumptions-header {
+  padding: 30px 40px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.assumptions-header:hover {
+  background: rgba(0,102,204,0.02);
+}
+
+.assumptions-title {
+  color: var(--synergy-blue);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.assumptions-chevron {
+  font-size: 1.5rem;
+  color: var(--synergy-blue);
+  transition: transform 0.3s ease;
+}
+
+.assumptions-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.assumptions-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+  padding: 0 40px;
+}
+
+.assumptions-content.expanded {
+  max-height: 2000px;
+  padding: 0 40px 30px 40px;
+  overflow: visible;
+}
+
+.assumption-category {
+  margin-bottom: 30px;
+}
+
+.assumption-category-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--synergy-dark);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.assumption-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.assumption-list li {
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+.assumption-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--synergy-blue);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.assumptions-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid var(--light-gray);
+}
+
+.assumptions-footer p {
+  color: var(--text-gray);
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.assumptions-footer strong {
+  color: var(--synergy-dark);
+  font-weight: 600;
+}
+/* Client Carousel Section - FIXED: Changed to auto height */
+.carousel-section {
+  background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+  padding: 80px 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+  min-height: auto;
+}
+
+.carousel-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--synergy-blue), transparent);
+  opacity: 0.3;
+}
+
+.carousel-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--synergy-dark);
+  margin-bottom: 50px;
+  opacity: 0;
+  animation: slideInUp 0.8s ease 0.3s both;
+}
+
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 60px;
+  animation: scroll 30s linear infinite;
+  width: max-content;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+.carousel-section:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+.client-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px;
+  background: var(--white);
+  border-radius: 10px;
+  min-width: 180px;
+  height: 100px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s ease;
+}
+
+.client-logo img {
+  max-width: 150px;
+  max-height: 60px;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
+  transition: filter 0.4s ease;
+}
+
+.client-logo:hover {
+  transform: scale(1.1) translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.client-logo:hover img {
+  filter: grayscale(0%) opacity(1);
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  background: var(--light-gray);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 7;
+  min-height: 100vh;
+}
+
+.testimonials-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--synergy-blue), transparent);
+  opacity: 0;
+  animation: lineReveal 1s ease 0.5s forwards;
+}
+
+@keyframes lineReveal {
+  from { opacity: 0; transform: scaleX(0); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+.testimonials-slider {
+  position: relative;
+  max-width: 1000px;
+  margin: 60px auto 0;
+  min-height: 400px;
+}
+
+.testimonial-slide {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 50px;
+  box-shadow: var(--shadow-lg);
+}
+
+.testimonial-slide.active {
+  opacity: 1;
+  position: relative;
+  pointer-events: auto;
+}
+
+.testimonial-photo {
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 4px solid var(--synergy-blue);
+  object-fit: cover;
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial-content {
+  flex: 1;
+}
+
+.testimonial-quote {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.testimonial-quote::before {
+  content: '"';
+  font-size: 4rem;
+  color: var(--synergy-light);
+  position: absolute;
+  top: -20px;
+  left: -10px;
+  font-family: Georgia, serif;
+}
+
+.testimonial-author {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  margin-bottom: 5px;
+}
+
+.testimonial-restaurant {
+  color: var(--synergy-blue);
+  font-size: 1rem;
+}
+
+.testimonial-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.nav-arrow {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--synergy-blue);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+.nav-arrow:hover {
+  background: var(--synergy-dark);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.progress-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--text-gray);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+  width: 12px;
+  height: 12px;
+  background: var(--synergy-blue);
+  border-color: var(--synergy-blue);
+}
+
+.progress-dot:hover {
+  transform: scale(1.2);
+}
+
+/* Main Content Sections */
+.content-section {
+  padding: 100px 0;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+  z-index: 4;
+  min-height: 100vh;
+}
+
+.content-section:nth-child(even) {
+  background: var(--light-gray);
+  z-index: 4;
+}
+
+.content-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--synergy-blue), transparent);
+  opacity: 0;
+  animation: lineReveal 1s ease 0.5s forwards;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; }
+}
+
+.section-tag {
+  display: inline-block;
+  color: var(--synergy-blue);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  padding: 8px 16px;
+  background: rgba(0,102,204,0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(0,102,204,0.2);
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.section-description {
+  font-size: 1.2rem;
+  color: var(--text-gray);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* New Locations Section */
+.new-locations-section {
+  background: linear-gradient(135deg, var(--synergy-light) 0%, var(--white) 100%);
+  padding: 60px 0;
+  margin: 40px 0;
+  z-index: 6;
+  min-height: 100vh;
+}
+
+.new-locations-banner {
+  background: var(--white);
+  border-left: 5px solid var(--accent-gold);
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,102,204,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.new-locations-banner::after {
+  content: '🏗️';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 4rem;
+  opacity: 0.1;
+}
+
+.new-locations-title {
+  color: var(--synergy-dark);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.new-locations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.location-stat {
+  background: var(--light-gray);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.location-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--synergy-blue);
+}
+
+.location-label {
+  font-size: 0.9rem;
+  color: var(--text-gray);
+  margin-top: 5px;
+}
+
+/* Energy Savings Calculator */
+.calculator-container {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 40px rgba(0,102,204,0.08);
+  margin-bottom: 40px;
+}
+
+.savings-comparison {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  align-items: center;
+  margin: 40px 0;
+}
+
+.current-state, .future-state {
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.current-state {
+  background: linear-gradient(135deg, var(--warning-orange) 0%, #ee5a24 100%);
+  color: white;
+}
+
+.future-state {
+  background: linear-gradient(135deg, var(--success-green) 0%, #00a040 100%);
+  color: white;
+}
+
+.state-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.state-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.state-detail {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.arrow-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.arrow {
+  font-size: 2rem;
+  color: var(--synergy-blue);
+  animation: slideRight 2s ease-in-out infinite;
+}
+
+@keyframes slideRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(10px); }
+}
+
+.savings-badge {
+  background: var(--synergy-blue);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* Progress Bars */
+.progress-item {
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: slideInLeft 0.8s ease forwards;
+}
+
+.progress-item:nth-child(1) { animation-delay: 0.1s; }
+.progress-item:nth-child(2) { animation-delay: 0.2s; }
+.progress-item:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.progress-label {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+}
+
+.progress-value {
+  color: var(--synergy-blue);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.progress-bar {
+  height: 12px;
+  background: var(--light-gray);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 6px;
+  position: relative;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: growWidth 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 0 2px 8px rgba(0,102,204,0.3);
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: progressShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes growWidth {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes progressShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+/* Equipment Comparison */
+.equipment-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  margin: 60px 0;
+}
+
+.equipment-card {
+  background: var(--white);
+  border: 2px solid var(--light-gray);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: slideInUp 0.8s ease forwards;
+}
+
+.equipment-card:nth-child(1) { animation-delay: 0.1s; }
+.equipment-card:nth-child(2) { animation-delay: 0.2s; }
+
+.equipment-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.equipment-card.synergy {
+  border-color: var(--synergy-blue);
+  background: linear-gradient(135deg, rgba(0,102,204,0.05) 0%, rgba(0,102,204,0.02) 100%);
+  box-shadow: 0 10px 30px rgba(0,102,204,0.1);
+}
+
+.equipment-card.synergy::before {
+  background: var(--gradient-gold);
+}
+
+.equipment-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0,102,204,0.15);
+}
+
+.equipment-card:hover::before {
+  transform: scaleX(1);
+}
+
+.equipment-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-dark);
+}
+
+.equipment-specs {
+  list-style: none;
+  text-align: left;
+}
+
+.equipment-spec {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--light-gray);
+  display: flex;
+  justify-content: space-between;
+}
+
+.spec-label {
+  color: var(--text-gray);
+}
+
+.spec-value {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.equipment-card.synergy .spec-value {
+  color: var(--synergy-blue);
+}
+
+/* TIMELINE EXCEPTION - Option 1: Exclude from Snapping */
+.content-section.implementation-timeline,
+section.implementation-timeline {
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+  min-height: auto !important;
+  z-index: 5;
+  background: var(--white);
+}
+
+/* Implementation Timeline */
+.timeline-container {
+  position: relative;
+  padding: 40px 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--synergy-blue);
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  display: flex;
+  margin-bottom: 60px;
+  align-items: center;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.timeline-item:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.timeline-content {
+  width: 45%;
+  background: var(--white);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,102,204,0.1);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: var(--synergy-blue);
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 4px rgba(0,102,204,0.2);
+}
+
+.timeline-phase {
+  color: var(--synergy-blue);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.timeline-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: var(--text-dark);
+}
+
+.timeline-tasks {
+  list-style: none;
+}
+
+.timeline-task {
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+  color: var(--text-gray);
+}
+
+.timeline-task::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success-green);
+  font-weight: bold;
+}
+
+/* Case Study Banner */
+.case-study-banner {
+  background: linear-gradient(135deg, var(--synergy-dark) 0%, var(--synergy-blue) 100%);
+  color: white;
+  padding: 60px 40px;
+  border-radius: 20px;
+  margin: 40px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.case-study-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: float 15s ease-in-out infinite;
+}
+
+.case-study-content {
+  position: relative;
+  z-index: 1;
+}
+
+.case-study-label {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.case-study-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.case-study-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.case-metric {
+  text-align: center;
+}
+
+.case-metric-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.case-metric-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+/* Buttons */
+.btn {
+  padding: 18px 48px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: var(--white);
+  color: var(--synergy-blue);
+  box-shadow: var(--shadow-lg);
+  border: 2px solid transparent;
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: var(--shadow-xl);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--white);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: var(--white);
+  color: var(--synergy-blue);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--synergy-blue) 0%, var(--synergy-dark) 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+  z-index: 9;
+  min-height: 100vh;
+}
+
+.cta-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.cta-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Footer */
+.footer {
+  background: var(--text-dark);
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+  z-index: 10;
+  scroll-snap-align: end;
+  min-height: auto;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.footer-text {
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.fade-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .metrics-grid { 
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .testimonial-slide {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .testimonial-photo {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile scroll-snap adjustments */
+  html {
+    scroll-snap-type: y proximity;
+  }
+  
+  section {
+    min-height: 100svh;
+  }
+  
+  .hero-logo { 
+    max-width: 280px; 
+    margin-bottom: 40px;
+  }
+  
+  .hero-title { 
+    font-size: 2.5rem; 
+  }
+  
+  .hero-subtitle { 
+    font-size: 1rem; 
+    white-space: normal;
+    max-width: 100%;
+  }
+  
+  .metrics-grid { 
+    grid-template-columns: 1fr;
+    margin-top: -40px;
+    gap: 12px;
+  }
+  
+  .metric-card {
+    padding: 20px 16px;
+    min-height: 120px;
+  }
+  
+  .metric-value { 
+    font-size: 1.8rem; 
+  }
+  
+  .metric-icon { 
+    font-size: 1.8rem; 
+  }
+  
+  .savings-comparison { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .timeline-item, .timeline-item:nth-child(even) { 
+    flex-direction: column; 
+  }
+  
+  .timeline-content { 
+    width: 100%; 
+  }
+  
+  .timeline-line { 
+    left: 20px; 
+  }
+  
+  .timeline-dot { 
+    left: 20px; 
+  }
+  
+  .equipment-comparison { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .new-locations-grid { 
+    grid-template-columns: 1fr; 
+  }
+  
+  .assumptions-header {
+    padding: 20px;
+  }
+  
+  .assumptions-title {
+    font-size: 1.2rem;
+  }
+  
+  .assumptions-content.expanded {
+    padding: 0 20px 20px 20px;
+  }
+  
+  .carousel-track {
+    gap: 40px;
+  }
+  
+  .client-logo {
+    min-width: 140px;
+    font-size: 0.9rem;
+    padding: 15px 20px;
+  }
+  
+  .testimonial-slide {
+    padding: 30px 20px;
+  }
+  
+  .testimonial-quote {
+    font-size: 1rem;
+  }
+  
+  .nav-arrow {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .cta-title {
+    font-size: 2rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Enhanced Loader -->
+<div class="loader-container">
+  <div class="loader-content">
+    <h2 class="loader-title">Synergy Grill Technology</h2>
+    <p class="loader-subtitle">Preparing your energy savings analysis...</p>
+  </div>
+  <div class="loader-grid">
+    <div class="loader-bar"></div>
+    <div class="loader-bar"></div>
+    <div class="loader-bar"></div>
+    <div class="loader-bar"></div>
+    <div class="loader-bar"></div>
+  </div>
+  <div class="loader-progress">
+    <div class="loader-progress-bar"></div>
+  </div>
+</div>
+
+<!-- Scroll Container Wrapper -->
+<div class="scroll-container">
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <img src="https://synergygrill.com/wp-content/uploads/2019/03/Synergy-R-Logo-White1.png" alt="Synergy Grill Technology" class="hero-logo">
+    <h1 class="hero-title">Flat Iron</h1>
+    <p class="hero-subtitle">Your Path to £212,400 Annual Savings with Synergy Grill Technology</p>
+    
+    <div class="location-highlight">
+      <strong>🏗️ 4-5 New Locations Identified</strong>
+      <p>Perfect opportunity to specify energy-efficient equipment from day one</p>
+    </div>
+    
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon">💷</div>
+        <div class="metric-value">£212,400</div>
+        <div class="metric-label">Total Annual Savings</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">⚡</div>
+        <div class="metric-value">59%</div>
+        <div class="metric-label">Energy Reduction</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">📊</div>
+        <div class="metric-value">13.2 months</div>
+        <div class="metric-label">Payback Period</div>
+      </div>
+      <div class="metric-card highlight">
+        <div class="metric-icon">🏗️</div>
+        <div class="metric-value">4-5</div>
+        <div class="metric-label">New Sites Opening</div>
+      </div>
+    </div>
+  </div>
+</section><!-- Assumptions Section -->
+<section class="assumptions-section">
+  <div class="container">
+    <div class="assumptions-banner">
+      <div class="assumptions-header" onclick="toggleAssumptions()">
+        <h2 class="assumptions-title">📊 Calculation Assumptions - Click to View</h2>
+        <span class="assumptions-chevron" id="assumptionsChevron">▼</span>
+      </div>
+      
+      <div class="assumptions-content" id="assumptionsContent">
+        <div class="assumption-category">
+          <h3 class="assumption-category-title">⚙️ OPERATIONAL DATA</h3>
+          <ul class="assumption-list">
+            <li><strong>Operating Hours:</strong> Estimated 12 hours/day, 6 days/week (industry standard)</li>
+            <li><strong>Grills Per Location:</strong> 2 Synergy ST900 units per location (standard configuration)</li>
+            <li><strong>Current Equipment:</strong> Standard 17.1kW gas chargrills (industry typical)</li>
+            <li><strong>Annual Operating Days:</strong> 312 days/year (6 days × 52 weeks)</li>
+          </ul>
+        </div>
+        
+        <div class="assumption-category">
+          <h3 class="assumption-category-title">💰 FINANCIAL INPUTS</h3>
+          <ul class="assumption-list">
+            <li><strong>Commercial Gas Rate:</strong> £0.30/kWh (UK commercial rates Q4 2024)</li>
+            <li><strong>Equipment Cost:</strong> £6,500</li>
+            <li><strong>Installation Cost:</strong> £2,000-3,000 per location (new builds: £1,000-1,500)</li>
+            <li><strong>Labour Cost:</strong> £12.50/hour (average kitchen staff rate)</li>
+            <li><strong>Annual Maintenance:</strong> £500/unit/year</li>
+          </ul>
+        </div>
+        
+        <div class="assumption-category">
+          <h3 class="assumption-category-title">⚡ PERFORMANCE METRICS</h3>
+          <ul class="assumption-list">
+            <li><strong>Energy Reduction:</strong> 59% compared to traditional 17.1kW chargrills</li>
+            <li><strong>Traditional Grill Power:</strong> 17.1kW</li>
+            <li><strong>Synergy Grill Power:</strong> 7kW</li>
+            <li><strong>Food Shrinkage Improvement:</strong> 50% reduction in shrinkage (25% → 12.5%)</li>
+            <li><strong>Cleaning Time Saved:</strong> 75% reduction (2 hours → 30 minutes daily)</li>
+            <li><strong>Kitchen Temperature Reduction:</strong> 3°C cooler ambient temperature</li>
+          </ul>
+        </div>
+        
+        <div class="assumptions-footer">
+          <p><strong>Calculation Basis:</strong> Based on 18 existing locations plus 4-5 planned sites, operating 12 hours/day, 6 days/week</p>
+          <p><strong>Data Quality:</strong> Operations data confirmed from research; Expansion data confirmed from company announcements; Energy costs based on current UK commercial energy rates</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- Client Carousel Section -->
+<section class="carousel-section">
+  <div class="container">
+    <h2 class="carousel-title">Trusted by Industry Leaders</h2>
+  </div>
+  
+  <div class="carousel-container">
+    <div class="carousel-track">
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/Whitbread-Logo.wine_.png" alt="Whitbread"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/TGI-Fridays.png" alt="TGI Fridays"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Boyds_Logo1_white-980x370.png" alt="Boyds"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Churchills-logo.png" alt="Churchill's"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Galvin-logo-980x265.png" alt="Galvin"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/greene-king-logo-52857C7812-seeklogo.com_.png" alt="Greene King"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Nandos.png" alt="Nando's"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/Steak-and-Company-logo.png" alt="Steak & Company"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/AngusSteakhouse-1024x864.png" alt="Angus Steakhouse"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/AMG_Yellow-Logo1-1.png" alt="AMG"></div>
+      <!-- Duplicate for infinite scroll effect -->
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/Whitbread-Logo.wine_.png" alt="Whitbread"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/TGI-Fridays.png" alt="TGI Fridays"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Boyds_Logo1_white-980x370.png" alt="Boyds"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Churchills-logo.png" alt="Churchill's"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Galvin-logo-980x265.png" alt="Galvin"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/greene-king-logo-52857C7812-seeklogo.com_.png" alt="Greene King"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Nandos.png" alt="Nando's"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/Steak-and-Company-logo.png" alt="Steak & Company"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/AngusSteakhouse-1024x864.png" alt="Angus Steakhouse"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/AMG_Yellow-Logo1-1.png" alt="AMG"></div>
+      <!-- Third set for seamless loop -->
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/Whitbread-Logo.wine_.png" alt="Whitbread"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/TGI-Fridays.png" alt="TGI Fridays"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Boyds_Logo1_white-980x370.png" alt="Boyds"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Churchills-logo.png" alt="Churchill's"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Galvin-logo-980x265.png" alt="Galvin"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/greene-king-logo-52857C7812-seeklogo.com_.png" alt="Greene King"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2025/07/Nandos.png" alt="Nando's"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/Steak-and-Company-logo.png" alt="Steak & Company"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/AngusSteakhouse-1024x864.png" alt="Angus Steakhouse"></div>
+      <div class="client-logo"><img src="https://synergygrill.com/wp-content/uploads/2019/03/AMG_Yellow-Logo1-1.png" alt="AMG"></div>
+    </div>
+  </div>
+</section>
+<!-- Executive Summary -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Executive Summary</span>
+      <h2 class="section-title">Thomas Walder, Here's What We Found</h2>
+    </div>
+    
+    <div class="calculator-container">
+      <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 30px;">
+        We've done a deep dive into Flat Iron's operations and found you're running 18 locations with 4-5 new sites coming online in 2025-2026. Here's the thing - new builds are the perfect time to get energy-efficient equipment in from day one. Based on your size and the industry data we've analyzed, standard chargrills pull about 17.1kW while Synergy units only use 7kW. That's a 59% reduction right there. For your expansion, we're looking at roughly £212,400 in annual savings if you spec Synergy from the start.
+      </p>
+      
+      <div style="background: var(--synergy-light); padding: 20px; border-radius: 10px; margin: 30px 0;">
+        <h3 style="color: var(--synergy-dark); margin-bottom: 15px;">Key Findings</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li style="padding: 10px 0;">🏗️ Found 4-5 new locations in your pipeline for 2025-2026 - that's a £212,400 equipment decision coming up</li>
+          <li style="padding: 10px 0;">💰 If you go Synergy in the new builds, you'll save about £5,000-10,000 in retrofit costs plus get 59% lower energy bills from day one</li>
+          <li style="padding: 10px 0;">⚡ Quick math: 4-5 new locations with Synergy = £212,400 saved every year, and that's before counting your existing sites</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- New Locations Spotlight -->
+<section class="new-locations-section">
+  <div class="container">
+    <div class="new-locations-banner">
+      <h2 class="new-locations-title">4-5 New Location Opportunity</h2>
+      <p style="font-size: 1.1rem; color: var(--text-gray); margin-bottom: 20px;">
+        From what we can see, Flat Iron is planning 4-5 new locations in various areas. Each new restaurant typically needs about £80,000 in kitchen equipment - that's your chance to get it right from the start. No disruption, no retrofit costs, just better equipment from day one.
+      </p>
+      
+      <div class="new-locations-grid">
+        <div class="location-stat">
+          <div class="location-number">4-5</div>
+          <div class="location-label">New Sites</div>
+        </div>
+        <div class="location-stat">
+          <div class="location-number">£80,000</div>
+          <div class="location-label">Equipment Budget/Site</div>
+        </div>
+        <div class="location-stat">
+          <div class="location-number">£15,000</div>
+          <div class="location-label">Annual Savings/Site</div>
+        </div>
+        <div class="location-stat">
+          <div class="location-number">£60,000-75,000/year</div>
+          <div class="location-label">Total New Site Savings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Energy Savings Analysis -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Energy Analysis</span>
+      <h2 class="section-title">Your Current vs. Future Energy Costs</h2>
+      <p class="section-description">Based on 18 current locations plus 4-5 planned sites</p>
+    </div>
+    
+    <div class="calculator-container">
+      <div class="savings-comparison">
+        <div class="current-state">
+          <div class="state-label">Current Annual Cost</div>
+          <div class="state-value">£360,000</div>
+          <div class="state-detail">Standard Chargrills</div>
+        </div>
+        
+        <div class="arrow-container">
+          <div class="arrow">→</div>
+          <div class="savings-badge">Save 59%</div>
+        </div>
+        
+        <div class="future-state">
+          <div class="state-label">With Synergy</div>
+          <div class="state-value">£147,600</div>
+          <div class="state-detail">Advanced Technology</div>
+        </div>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-header">
+          <span class="progress-label">Energy Efficiency Gain</span>
+          <span class="progress-value">59%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 59%"></div>
+        </div>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-header">
+          <span class="progress-label">Food Shrinkage Reduction</span>
+          <span class="progress-value">50%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 50%"></div>
+        </div>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-header">
+          <span class="progress-label">Cleaning Time Saved</span>
+          <span class="progress-value">75%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 75%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- Equipment Comparison -->
+<section class="content-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Equipment Analysis</span>
+      <h2 class="section-title">Traditional vs. Synergy Comparison</h2>
+    </div>
+    
+    <div class="equipment-comparison">
+      <div class="equipment-card">
+        <h3 class="equipment-name">Traditional Chargrill</h3>
+        <ul class="equipment-specs">
+          <li class="equipment-spec">
+            <span class="spec-label">Energy Consumption</span>
+            <span class="spec-value">17.1kW</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Food Shrinkage</span>
+            <span class="spec-value">25%</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Daily Cleaning</span>
+            <span class="spec-value">2 hours</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Fat Disposal</span>
+            <span class="spec-value">Daily</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Kitchen Heat</span>
+            <span class="spec-value">+5°C ambient</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="equipment-card synergy">
+        <h3 class="equipment-name">Synergy Grill ST900</h3>
+        <ul class="equipment-specs">
+          <li class="equipment-spec">
+            <span class="spec-label">Energy Consumption</span>
+            <span class="spec-value">7kW</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Food Shrinkage</span>
+            <span class="spec-value">12.5%</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Daily Cleaning</span>
+            <span class="spec-value">30 minutes</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Fat Disposal</span>
+            <span class="spec-value">None (atomised)</span>
+          </li>
+          <li class="equipment-spec">
+            <span class="spec-label">Kitchen Heat</span>
+            <span class="spec-value">+2°C ambient</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Chef Testimonials</span>
+      <h2 class="section-title">What Chefs Are Saying</h2>
+    </div>
+    
+    <div class="testimonials-slider">
+      <div class="testimonial-slide active">
+        <img src="https://synergygrill.com/wp-content/uploads/2019/03/Andy-Hirst-The-Talbooth-SQ-1.jpg" alt="Andy Hirst" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">The energy consumption of the Synergy Grill itself is so impressive! So far, we've ran 7 key events, and the gas bottle is only half used! It's almost like it's just sipping the gas. It's reduced our gas usage by nearly 50%.</p>
+          <div class="testimonial-author">Andy Hirst</div>
+          <div class="testimonial-restaurant">The Talbooth</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2019/03/Adam-Gooderham-AMG-Prep-Sq-.jpg" alt="Adam Gooderham" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">We've been operating our Synergy Grill for 3 months now, and we've not had to change the gas canister once! As a result, are saving around £200 a month on energy costs.</p>
+          <div class="testimonial-author">Adam Gooderham</div>
+          <div class="testimonial-restaurant">AMG Prep</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2019/03/Andy-Watts-Square.jpg" alt="Andy Watts" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">For me, having a Synergy eGrill installed here at The Jack Russell was a must. Having worked on this amazing bit of kit in two of my previous pubs. I would absolutely recommend Synergy Grill Technology to other country pubs.</p>
+          <div class="testimonial-author">Andy Watts</div>
+          <div class="testimonial-restaurant">The Jack Russell</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2023/10/Azam-Riyard-resized.jpg" alt="Azam Riyard" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">As soon as you start the Synergy Grill up, the temperature is consistent. All four corners of the grill have got the same temperature. As a chef it's all about consistency.</p>
+          <div class="testimonial-author">Azam Riyard</div>
+          <div class="testimonial-restaurant">The Clubhouse Steakhouse</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2020/09/Seamus-2.jpg" alt="Seamus O'Donnell" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">The Synergy Grills are an easy bit of kit to love because they are so consistent. When cooking on a Synergy Grill, chefs can feel confident that no matter where they place the food, a consistent heat will be maintained.</p>
+          <div class="testimonial-author">Seamus O'Donnell</div>
+          <div class="testimonial-restaurant">The Alchemist</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2020/01/28-Well-Hung1-mid.jpg" alt="Gary Solomons" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">To be able to work with and support a British manufacturer that holds the same environmental values as us is tremendous. Together, we hope to pave a pathway for other manufacturers and restaurants to realise the importance of environmental responsibility.</p>
+          <div class="testimonial-author">Gary Solomons</div>
+          <div class="testimonial-restaurant">28 Well Hung</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2019/03/Dan-Anderson.jpg" alt="Dan Anderson" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">I would recommend Synergy Grill on the point of its technology, ease of use and efficiency. It's absolutely fantastic and I have no qualms in passing on my findings to other chefs.</p>
+          <div class="testimonial-author">Dan Anderson</div>
+          <div class="testimonial-restaurant">Anderson's Bar Grill</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2019/03/tom-aiken@2xforcustomers-scaled.jpg" alt="Tom Aikens" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">Synergy Grills are the most fuel efficient and robust grills you can get. Offering you the highest amount of heat you will need to cook anything on.</p>
+          <div class="testimonial-author">Tom Aikens</div>
+          <div class="testimonial-restaurant">Toms Kitchen</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2019/02/Acr8899291521984-1286739-scaled.jpg" alt="Cyrus Todiwala OBE" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">It's really quick. You see on everything – from heat to energy to everything else. It ticks all the boxes.</p>
+          <div class="testimonial-author">Cyrus Todiwala OBE</div>
+          <div class="testimonial-restaurant">Cafe Spice Namaste</div>
+        </div>
+      </div>
+      
+      <div class="testimonial-slide">
+        <img src="https://synergygrill.com/wp-content/uploads/2019/03/Nate-AlchemyLive-scaled.jpg" alt="Nate Brewster" class="testimonial-photo">
+        <div class="testimonial-content">
+          <p class="testimonial-quote">For me there are three USPs with the Synergy Grill. As a Chef I'm looking for flavour. As a Manager I'm looking for a grill that's easy to maintain. As an owner I want to reduce my bottom line and a Synergy Grill does that by halving my gas bill.</p>
+          <div class="testimonial-author">Nate Brewster</div>
+          <div class="testimonial-restaurant">Boyds</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="testimonial-navigation">
+      <button class="nav-arrow" onclick="prevTestimonial()">←</button>
+      <div class="progress-dots">
+        <span class="progress-dot active" onclick="goToTestimonial(0)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(1)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(2)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(3)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(4)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(5)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(6)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(7)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(8)"></span>
+        <span class="progress-dot" onclick="goToTestimonial(9)"></span>
+      </div>
+      <button class="nav-arrow" onclick="nextTestimonial()">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- Case Study -->
+<section class="content-section">
+  <div class="container">
+    <div class="case-study-banner">
+      <div class="case-study-content">
+        <span class="case-study-label">Success Story</span>
+        <h2 class="case-study-title">Miller & Carter: 47 Locations Transformed</h2>
+        <p style="font-size: 1.1rem; margin-top: 20px;">
+          Part of Mitchells & Butlers, Miller & Carter switched all 47 steakhouse locations to Synergy Grill technology in 2023.
+        </p>
+        
+        <div class="case-study-metrics">
+          <div class="case-metric">
+            <div class="case-metric-value">£1.3M</div>
+            <div class="case-metric-label">Annual Savings</div>
+          </div>
+          <div class="case-metric">
+            <div class="case-metric-value">9 months</div>
+            <div class="case-metric-label">Payback Period</div>
+          </div>
+          <div class="case-metric">
+            <div class="case-metric-value">59%</div>
+            <div class="case-metric-label">Energy Reduction</div>
+          </div>
+          <div class="case-metric">
+            <div class="case-metric-value">18%</div>
+            <div class="case-metric-label">Quality Score Increase</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- Implementation Timeline -->
+<section class="content-section implementation-timeline">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Implementation Plan</span>
+      <h2 class="section-title">Your Journey to Savings</h2>
+      <p class="section-description">Prioritizing new locations for maximum impact</p>
+    </div>
+    
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-dot"></div>
+          <div class="timeline-phase">Immediate</div>
+          <h3 class="timeline-title">New Location Specification</h3>
+          <ul class="timeline-tasks">
+            <li class="timeline-task">Confirm Synergy grill specifications with kitchen designers for the Bristol location</li>
+            <li class="timeline-task">Order Synergy equipment for all planned new locations to ensure timely delivery</li>
+            <li class="timeline-task">Schedule installation timelines to align with Bristol and Newcastle opening dates</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-dot"></div>
+          <div class="timeline-phase">Week 1-2</div>
+          <h3 class="timeline-title">Flagship Trial</h3>
+          <ul class="timeline-tasks">
+            <li class="timeline-task">Pilot Synergy grills at the busiest existing Flat Iron location during a quiet period</li>
+            <li class="timeline-task">Monitor energy consumption and kitchen temperature improvements during the pilot</li>
+            <li class="timeline-task">Collect staff feedback on the new grill performance and kitchen environment</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-dot"></div>
+          <div class="timeline-phase">Month 2-3</div>
+          <h3 class="timeline-title">Full Rollout</h3>
+          <ul class="timeline-tasks">
+            <li class="timeline-task">Plan full rollout of Synergy grills across all new sites based on pilot results</li>
+            <li class="timeline-task">Coordinate with contractors to optimize kitchen ventilation for Synergy grills in new builds</li>
+            <li class="timeline-task">Transition cooking operations smoothly from traditional grills to Synergy units in new locations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title">Ready to Transform Your Kitchen Economics?</h2>
+    <p class="cta-subtitle">Thomas, you've got 4-5 new Flat Iron locations coming - that's a once-in-a-decade chance to build in efficiency from the start. Every new site with old-school grills is basically signing up for £15,000 in unnecessary costs every year. Your call, but the math is pretty clear.</p>
+    
+    <div class="cta-buttons">
+      <a href="https://synergygrill.com/cost-calculator" class="btn btn-primary">Calculate Your Savings</a>
+      <a href="https://synergygrill.com/book-demo" class="btn btn-secondary">Book a Demo</a>
+    </div>
+  </div>
+</section><!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-logo">Synergy Grill</div>
+    <p class="footer-text">Prepared exclusively for Thomas Walder at Flat Iron</p>
+    <p class="footer-text" style="opacity: 0.5;">20 October 2025</p>
+  </div>
+</footer>
+
+</div>
+<!-- End scroll-container wrapper -->
+
+<script>
+let currentTestimonial = 0;
+const totalTestimonials = 10;
+
+function toggleAssumptions() {
+  const content = document.getElementById('assumptionsContent');
+  const chevron = document.getElementById('assumptionsChevron');
+  
+  if (content.classList.contains('expanded')) {
+    content.classList.remove('expanded');
+    chevron.classList.remove('rotated');
+  } else {
+    content.classList.add('expanded');
+    chevron.classList.add('rotated');
+  }
+}
+
+function showTestimonial(index) {
+  const slides = document.querySelectorAll('.testimonial-slide');
+  const dots = document.querySelectorAll('.progress-dot');
+  
+  slides.forEach((slide, i) => {
+    if (i === index) {
+      slide.classList.add('active');
+    } else {
+      slide.classList.remove('active');
+    }
+  });
+  
+  dots.forEach((dot, i) => {
+    if (i === index) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.remove('active');
+    }
+  });
+  
+  currentTestimonial = index;
+}
+
+function nextTestimonial() {
+  const nextIndex = (currentTestimonial + 1) % totalTestimonials;
+  showTestimonial(nextIndex);
+}
+
+function prevTestimonial() {
+  const prevIndex = (currentTestimonial - 1 + totalTestimonials) % totalTestimonials;
+  showTestimonial(prevIndex);
+}
+
+function goToTestimonial(index) {
+  showTestimonial(index);
+}
+
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.calculator-container, .timeline-item, .equipment-card, .new-locations-banner, .case-study-banner, .assumptions-banner').forEach((el, index) => {
+  el.classList.add('fade-in');
+  el.style.animationDelay = `${index * 0.1}s`;
+  observer.observe(el);
+});
+
+function animateValue(element, start, end, duration) {
+  const range = end - start;
+  const startTime = performance.now();
+  
+  function updateValue(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+    const current = start + (range * easeOutCubic);
+    
+    if (element.textContent.includes('£')) {
+      element.textContent = '£' + Math.round(current).toLocaleString('en-GB');
+    } else if (element.textContent.includes('%')) {
+      element.textContent = Math.round(current) + '%';
+    } else if (element.textContent.includes('M')) {
+      element.textContent = (current / 1000000).toFixed(1) + 'M';
+    } else {
+      element.textContent = Math.round(current);
+    }
+    
+    if (progress < 1) {
+      requestAnimationFrame(updateValue);
+    }
+  }
+  
+  requestAnimationFrame(updateValue);
+}
+
+// Animate metric values with range detection
+document.querySelectorAll('.metric-value, .state-value, .case-metric-value, .location-number').forEach(metric => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const text = entry.target.textContent;
+        
+        // Check if it's a range value (e.g., "4-5")
+        const isRange = /^\d+-\d+$/.test(text.trim());
+        if (isRange) {
+          observer.unobserve(entry.target);
+          return; // Skip animation for range values
+        }
+        
+        let value;
+        
+        if (text.includes('£')) {
+          value = parseInt(text.replace(/[£,]/g, ''));
+        } else if (text.includes('%')) {
+          value = parseInt(text.replace('%', ''));
+        } else if (text.includes('M')) {
+          value = parseFloat(text.replace('M', '')) * 1000000;
+        } else {
+          value = parseInt(text.replace(/[^\d]/g, ''));
+        }
+        
+        if (value > 0) {
+          animateValue(entry.target, 0, value, 2000);
+        }
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  observer.observe(metric);
+});
+
+document.querySelectorAll('.progress-fill').forEach((bar, index) => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const width = bar.style.width;
+        bar.style.width = '0';
+        bar.style.transform = 'scaleX(0)';
+        
+        setTimeout(() => {
+          bar.style.width = width;
+          bar.style.transform = 'scaleX(1)';
+        }, index * 200 + 100);
+        
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  observer.observe(bar);
+});
+
+// PARALLAX SCROLL REMOVED - This conflicted with scroll-snap behavior
+
+document.querySelectorAll('.timeline-item').forEach((item, index) => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, index * 200);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  observer.observe(item);
+});
+</script>
+
+</body>
+</html>
